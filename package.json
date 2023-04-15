@@ -1,0 +1,25 @@
+{
+  "name": "crawler-nodejs",
+  "version": "1.0.0",
+  "description": "crawler with node js",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sharifiniaa/crawler-nodejs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sharifiniaa/crawler-nodejs/issues"
+  },
+  "homepage": "https://github.com/sharifiniaa/crawler-nodejs#readme",
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}
