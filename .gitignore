@@ -37,3 +37,7 @@ yarn-error.log*
 # IDEA Settings
 /.idea/
 /.vscode/
+
+
+# MOCK DATA
+results.txt

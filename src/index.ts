@@ -6,9 +6,10 @@ const fs = require('fs');
 const crawler = async (location: string) => {
   // Set up Firefox driver
   const options = new firefox.Options();
+  options.headless()
   // options.hedless();
 
-  // options.setBinary('/Applications/Firefox.app/Contents/MacOS/firefox');
+  options.setBinary('/Applications/Firefox.app/Contents/MacOS/firefox');
   const driver = await new Builder().forBrowser('firefox').setFirefoxOptions(options).build();
 
   try {
@@ -30,19 +31,7 @@ const crawler = async (location: string) => {
       const time = await el?.findElement(By.css('time.job-search-card__listdate'))?.getText();
     
       // Wait for the anchor element to be clickable before clicking on it
-      const anchorElement = await el.findElement(By.css('a.base-card__full-link'));
-      await anchorElement.click();
-      
-      let link = ''
-    
-      // Wait for 3 seconds before proceeding to the next action
-      await new Promise(resolve => setTimeout(resolve, 3000)).then(async () => {
-        link = await driver
-        ?.findElement(By.css('[data-tracking-control-name="public_jobs_topcard-title]'))
-        ?.getAttribute('href');
-      });
-    
-      
+      const link = await el.findElement(By.css('a.base-card__full-link'))?.getAttribute('href');
     
       jobs.push({ title, company, location, time, link });
     }
@@ -55,12 +44,12 @@ const crawler = async (location: string) => {
       console.log('Results saved to results.txt!');
     });
 
-    // console.log(jobs);
+    console.log(jobs);
   } catch (err) {
     console.log(err);
   } finally {
     // Close the browser
-    // await driver.quit();
+    await driver.quit();
   }
 };
 
