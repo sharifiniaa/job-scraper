@@ -1,17 +1,14 @@
 {
-    "compilerOptions": {
-      "module": "commonjs",
-      "esModuleInterop": true,
-      "target": "es6",
-      "moduleResolution": "node",
-      "sourceMap": true,
-      "outDir": "./dist",
-      "rootDir": "./src",
-      "strict": true
-    },
-    "include": [
-      "src",
-      "node_modules/@types/puppeteer/index.d.ts"
-    ]
-  }
-  
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true
+  },
+  "include": ["src", "node_modules/@types/puppeteer/index.d.ts"]
+}
