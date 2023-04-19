@@ -5,6 +5,7 @@ import {By, until} from 'selenium-webdriver';
 import {TJob} from './types';
 import {filterKeyword} from 'modules/scraper/filterKeywords';
 import {checkAndSaveJobs} from 'modules/scraper/saveJobs';
+import { isExcludedByTitle } from 'modules/scraper/isExcludedByTitle';
 
 export const scraper = async (location: string) => {
   const driver = await createDriver();
@@ -38,7 +39,9 @@ export const scraper = async (location: string) => {
       const location = await elementGetter({el, selector: 'span.job-search-card__location'});
       const time = await elementGetter({el, selector: 'time'});
       const link = await elementGetter({el, selector: 'a.base-card__full-link', method: 'attribute', attr: 'href'});
-      jobs.push({title, company, location, time, link, visa: false});
+      if(!isExcludedByTitle(title)) {
+        jobs.push({title, company, location, time, link, visa: false});
+      }
     }
     const filteredJobs = await filterKeyword(jobs);
     await checkAndSaveJobs(filteredJobs);
@@ -49,5 +52,6 @@ export const scraper = async (location: string) => {
     await driver.quit();
   }
 };
+
 
 scraper('United kingdom');
