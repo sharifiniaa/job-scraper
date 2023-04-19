@@ -3,9 +3,10 @@ import {elementGetter} from './modules/scraper/elements';
 import {createDriver} from './modules/driver';
 import {By, until} from 'selenium-webdriver';
 import {TJob} from './types';
-import {filterKeyword} from 'modules/scraper/filterKeywords';
-import {checkAndSaveJobs} from 'modules/scraper/saveJobs';
-import { isExcludedByTitle } from 'modules/scraper/isExcludedByTitle';
+import {filterKeyword} from './modules/scraper/filterKeywords';
+import {checkAndSaveJobs} from './modules/scraper/saveJobs';
+import { isExcludedByTitle } from './modules/scraper/isExcludedByTitle';
+import { collectCompanies } from './modules/companies';
 
 export const scraper = async (location: string) => {
   const driver = await createDriver();
@@ -27,7 +28,7 @@ export const scraper = async (location: string) => {
     }
 
     // Get job listings
-    console.log('before listing');
+    console.log('before listing...');
     const jobElements = await driver.findElements(By.css('ul.jobs-search__results-list>li'));
     const jobs: TJob[] = [];
     for (const el of jobElements) {
@@ -54,4 +55,5 @@ export const scraper = async (location: string) => {
 };
 
 
-scraper('United kingdom');
+// scraper('United kingdom');
+collectCompanies();

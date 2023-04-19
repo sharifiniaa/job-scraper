@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated/prisma-client-js"
 }
 
 datasource db {
@@ -17,5 +16,10 @@ model Job {
   link         String?
   job_name     String    @unique
   created_date DateTime? @default(now())
-  visa         Boolean?   @default(false)
+  visa         Boolean?  @default(false)
+}
+
+model companies {
+  id   Int    @id @default(autoincrement())
+  name String @unique
 }
