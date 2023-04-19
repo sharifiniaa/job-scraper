@@ -9,11 +9,13 @@ datasource db {
 }
 
 model Job {
-  id       Int     @id @default(autoincrement())
-  title    String
-  company  String?
-  location String?
-  time     String?
-  link     String
-  job_name String  @unique
+  id           Int       @id @default(autoincrement())
+  title        String
+  company      String?
+  location     String?
+  time         String?
+  link         String
+  job_name     String    @unique
+  created_date DateTime? @default(now())
+  visa         Boolean   @default(false)
 }

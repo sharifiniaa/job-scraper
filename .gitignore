@@ -41,3 +41,8 @@ yarn-error.log*
 
 # MOCK DATA
 results.txt
+
+
+# prisma
+prisma/*
+!prisma/schema.prisma
