@@ -16,7 +16,7 @@ export async function checkAndSaveJobs(jobs: TJob[]) {
   
           if (!existingJob) {
             console.log('its unique:', job.title, job.link);
-            count = count + 1;
+            count += 1;
             await prisma.job.create({
               data: {
                 title: job.title,
@@ -24,6 +24,7 @@ export async function checkAndSaveJobs(jobs: TJob[]) {
                 location: job.location,
                 time: job.time,
                 link: job.link,
+                description: job.description,
                 job_name: job_name,
               },
             });

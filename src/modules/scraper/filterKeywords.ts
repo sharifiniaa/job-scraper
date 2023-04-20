@@ -21,6 +21,7 @@ export async function filterKeyword(jobs: TJob[]): Promise<TJob[]> {
         (await prisma.companies.findUnique({where: {name: companyName}})) ||
         text.toLocaleLowerCase().includes('visa sponsorship');
       job.visa = !!haveVisa;
+      job.description = text.substring(0, 300) + '...'
       filteredJobs.push(job);
       const handles = await driver.getAllWindowHandles();
       for (let i = 1; i < handles.length; i++) {
