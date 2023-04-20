@@ -1,6 +1,7 @@
 import {TJob} from 'types';
 import {createDriver} from '../driver';
 import {By} from 'selenium-webdriver';
+import prisma from '../db';
 
 export async function filterKeyword(jobs: TJob[]): Promise<TJob[]> {
   const driver = await createDriver();
@@ -15,7 +16,11 @@ export async function filterKeyword(jobs: TJob[]): Promise<TJob[]> {
       const element = await driver.findElement(By.className('core-section-container'));
       const text = await element.getText();
       await driver.sleep(1000);
-      job.visa = text.toLocaleLowerCase().includes('visa sponsorship');
+      const companyName = text.toLocaleLowerCase();
+      const haveVisa =
+        (await prisma.companies.findUnique({where: {name: companyName}})) ||
+        text.toLocaleLowerCase().includes('visa sponsorship');
+      job.visa = !!haveVisa;
       filteredJobs.push(job);
       const handles = await driver.getAllWindowHandles();
       for (let i = 1; i < handles.length; i++) {
