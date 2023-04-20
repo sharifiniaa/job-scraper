@@ -11,11 +11,11 @@ export async function filterKeyword(jobs: TJob[]): Promise<TJob[]> {
       console.log('finding keywords ...');
       await driver.get(job.link);
       const showMoreBtn = await driver.findElement(By.className('show-more-less-html__button--more'));
-      await showMoreBtn.click();
+      await showMoreBtn?.click();
       await driver.sleep(3000);
       const element = await driver.findElement(By.className('core-section-container'));
       const text = await element.getText();
-      await driver.sleep(1000);
+      await driver.sleep(3000);
       const companyName = text.toLocaleLowerCase();
       const haveVisa =
         (await prisma.companies.findUnique({where: {name: companyName}})) ||

@@ -7,6 +7,8 @@ import {filterKeyword} from './modules/scraper/filterKeywords';
 import {checkAndSaveJobs} from './modules/scraper/saveJobs';
 import {isExcludedByTitle} from './modules/scraper/isExcludedByTitle';
 import {collectCompanies} from './modules/companies';
+import prisma from './modules/db';
+import { sendJobToChannel } from './modules/telegram';
 
 export const scraper = async (location: string) => {
   const driver = await createDriver();
@@ -16,16 +18,16 @@ export const scraper = async (location: string) => {
       `https://www.linkedin.com/jobs/search?keywords=React&location=${location}&f_TPR=r86400&geoId=&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0`,
     );
 
-    for (let i = 0; i < 4; i++) {
-      // Scroll to the bottom of the page
-      await driver.executeScript('window.scrollTo(0, document.body.scrollHeight);');
+    // for (let i = 0; i < 4; i++) {
+    //   // Scroll to the bottom of the page
+    //   await driver.executeScript('window.scrollTo(0, document.body.scrollHeight);');
 
-      // Wait for new content to load
-      await driver.wait(until.elementLocated(By.css('ul.jobs-search__results-list>li')));
+    //   // Wait for new content to load
+    //   await driver.wait(until.elementLocated(By.css('ul.jobs-search__results-list>li')));
 
-      // Wait for some additional time to allow the page to fully render
-      await driver.sleep(5000);
-    }
+    //   // Wait for some additional time to allow the page to fully render
+    //   await driver.sleep(5000);
+    // }
 
     // Get job listings
     console.log('before listing...');
@@ -40,8 +42,10 @@ export const scraper = async (location: string) => {
       const location = await elementGetter({el, selector: 'span.job-search-card__location'});
       const time = await elementGetter({el, selector: 'time'});
       const link = await elementGetter({el, selector: 'a.base-card__full-link', method: 'attribute', attr: 'href'});
-      if (!isExcludedByTitle(title)) {
+      if (isExcludedByTitle(title)) {
         jobs.push({title, company, location, time, link, visa: false, description: '', source: 'Linkedin'});
+      } else {
+        console.log('filtered by title:', title)
       }
     }
     const filteredJobs = await filterKeyword(jobs);
@@ -54,5 +58,11 @@ export const scraper = async (location: string) => {
   }
 };
 
-// scraper('United kingdom');
-collectCompanies();
+async function runScripts() {
+  await collectCompanies();
+  await scraper('United kingdom');
+  const jobs = await prisma.job.findMany()
+  await sendJobToChannel(jobs)
+}
+
+runScripts();
