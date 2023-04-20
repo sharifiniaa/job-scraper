@@ -8,7 +8,7 @@ import {checkAndSaveJobs} from './modules/scraper/saveJobs';
 import {isExcludedByTitle} from './modules/scraper/isExcludedByTitle';
 import {collectCompanies} from './modules/companies';
 import prisma from './modules/db';
-import { sendJobToChannel } from './modules/telegram';
+import {sendJobToChannel} from './modules/telegram';
 
 export const scraper = async (location: string) => {
   const driver = await createDriver();
@@ -42,10 +42,19 @@ export const scraper = async (location: string) => {
       const location = await elementGetter({el, selector: 'span.job-search-card__location'});
       const time = await elementGetter({el, selector: 'time'});
       const link = await elementGetter({el, selector: 'a.base-card__full-link', method: 'attribute', attr: 'href'});
-      if (isExcludedByTitle(title)) {
-        jobs.push({title, company, location, time, link, visa: false, description: '', source: 'Linkedin'});
+      if (isExcludedByTitle(title.toLocaleLowerCase())) {
+        jobs.push({
+          title: title.toLocaleLowerCase(),
+          company,
+          location,
+          time,
+          link,
+          visa: false,
+          description: '',
+          source: 'Linkedin',
+        });
       } else {
-        console.log('filtered by title:', title)
+        console.log('filtered by title:', title);
       }
     }
     const filteredJobs = await filterKeyword(jobs);
@@ -61,8 +70,8 @@ export const scraper = async (location: string) => {
 async function runScripts() {
   await collectCompanies();
   await scraper('United kingdom');
-  const jobs = await prisma.job.findMany()
-  await sendJobToChannel(jobs)
+  const jobs = await prisma.job.findMany();
+  await sendJobToChannel(jobs);
 }
 
 runScripts();

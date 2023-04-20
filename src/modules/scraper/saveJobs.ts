@@ -29,7 +29,7 @@ export async function checkAndSaveJobs(jobs: TJob[]) {
               job_name: job_name,
             },
           });
-          await sendJobToChannel(job);
+          await sendJobToChannel(jobs);
         }
       }),
     );
