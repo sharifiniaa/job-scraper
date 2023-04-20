@@ -13,10 +13,12 @@ model Job {
   company      String?
   location     String?
   time         String?
-  link         String?
+  link         String
   job_name     String    @unique
   created_date DateTime? @default(now())
   visa         Boolean?  @default(false)
+  description  String?
+  source       String?   @default("linkedin")
 }
 
 model companies {
