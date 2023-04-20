@@ -1,6 +1,6 @@
 import { TJob } from "types";
 import { parsPath } from "./parsPath";
-import prisma from "modules/db";
+import prisma from "../db";
 
 export async function checkAndSaveJobs(jobs: TJob[]) {
     let count = 0;
