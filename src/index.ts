@@ -7,8 +7,6 @@ import {filterKeyword} from './modules/scraper/filterKeywords';
 import {checkAndSaveJobs} from './modules/scraper/saveJobs';
 import {isExcludedByTitle} from './modules/scraper/isExcludedByTitle';
 import {collectCompanies} from './modules/companies';
-import prisma from './modules/db';
-import {sendJobToChannel} from './modules/telegram';
 
 export const scraper = async (location: string) => {
   const driver = await createDriver();
@@ -68,10 +66,8 @@ export const scraper = async (location: string) => {
 };
 
 async function runScripts() {
-  await collectCompanies();
+  // await collectCompanies();
   await scraper('United kingdom');
-  const jobs = await prisma.job.findMany();
-  await sendJobToChannel(jobs);
 }
 
 runScripts();
