@@ -16,16 +16,16 @@ export const scraper = async (location: string) => {
       `https://www.linkedin.com/jobs/search?keywords=React&location=${location}&f_TPR=r86400&geoId=&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0`,
     );
 
-    // for (let i = 0; i < 4; i++) {
-    //   // Scroll to the bottom of the page
-    //   await driver.executeScript('window.scrollTo(0, document.body.scrollHeight);');
+    for (let i = 0; i < 4; i++) {
+      // Scroll to the bottom of the page
+      await driver.executeScript('window.scrollTo(0, document.body.scrollHeight);');
 
-    //   // Wait for new content to load
-    //   await driver.wait(until.elementLocated(By.css('ul.jobs-search__results-list>li')));
+      // Wait for new content to load
+      await driver.wait(until.elementLocated(By.css('ul.jobs-search__results-list>li')));
 
-    //   // Wait for some additional time to allow the page to fully render
-    //   await driver.sleep(5000);
-    // }
+      // Wait for some additional time to allow the page to fully render
+      await driver.sleep(5000);
+    }
 
     // Get job listings
     console.log('before listing...');
@@ -66,7 +66,7 @@ export const scraper = async (location: string) => {
 };
 
 async function runScripts() {
-  // await collectCompanies();
+  await collectCompanies();
   await scraper('United kingdom');
 }
 
