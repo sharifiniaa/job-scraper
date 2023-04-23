@@ -1,6 +1,17 @@
 const url = require('url');
 
 export function parsPath(jobUrl: string) {
-  const pathName = url?.parse(jobUrl)?.pathname ?? '';
+  const pathName = validateURL(jobUrl) ? url?.parse(jobUrl)?.pathname : '';
   return pathName.split('/').pop();
+}
+
+function validateURL(url: string) {
+  let valid = true;
+  try {
+    const myURL = new URL(url);
+  } catch (error) {
+    valid = false;
+  } finally {
+    return valid;
+  }
 }

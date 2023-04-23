@@ -8,7 +8,7 @@ export async function checkAndSaveJobs(jobs: TJob[]) {
   let count = 0;
   try {
     for (const job of jobs) {
-      const job_name: string = parsPath(job.link);
+      const job_name: string = parsPath(job?.link);
       const existingJob = await prisma.job.findUnique({
         where: {
           job_name,
@@ -16,9 +16,8 @@ export async function checkAndSaveJobs(jobs: TJob[]) {
       });
 
       if (!existingJob) {
-        console.log('its unique:', job.title, job.link);
         count += 1;
-        await prisma.job.create({
+        const response = await prisma.job.create({
           data: {
             title: job.title,
             company: job.company,
@@ -29,7 +28,7 @@ export async function checkAndSaveJobs(jobs: TJob[]) {
             job_name: job_name,
           },
         });
-        await sendJobToChannel(job, 1000 * count);
+        await sendJobToChannel(response, 5000 * count);
         console.log('Jobs saved to database successfully!');
       }
     }
