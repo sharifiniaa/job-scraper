@@ -8,7 +8,7 @@ export function parsPath(jobUrl: string) {
 function validateURL(url: string) {
   let valid = true;
   try {
-    const myURL = new URL(url);
+    new URL(url);
   } catch (error) {
     valid = false;
   } finally {
