@@ -1,4 +1,4 @@
-import {By, WebElement} from 'selenium-webdriver';
+import {By, WebDriver, WebElement} from 'selenium-webdriver';
 
 type TElementGetter = {
   el: WebElement;
@@ -16,5 +16,16 @@ export async function elementGetter({el, selector, method = 'text', attr = 'href
     name = '';
   } finally {
     return name;
+  }
+}
+
+
+export async function jobDescriptionClicker(el: WebDriver) {
+  try {
+    const showMoreBtn = await el.findElement(By.className('show-more-less-html__button--more'));
+    await showMoreBtn?.click();
+  }
+  catch (err){
+    console.log("element didn't had description", err)
   }
 }
