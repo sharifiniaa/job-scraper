@@ -3,18 +3,19 @@ import {createDriver} from '../driver';
 import {By} from 'selenium-webdriver';
 import prisma from '../db';
 import {cleanedText} from '../../helper/cleanedText';
-import {jobDescriptionClicker} from "./elements";
+import {jobDescriptionClicker} from './elements';
 
 export async function filterKeyword(jobs: TJob[]): Promise<TJob[]> {
   const driver = await createDriver();
+  const jobItems = jobs.filter(job => job.link.length > 1);
   try {
     const filteredJobs: TJob[] = [];
-    for (const job of jobs) {
-      console.log('finding keywords ...');
+    for (const job of jobItems) {
+      console.log('finding keywords ...', job.link);
       await driver.get(job.link);
       // const showMoreBtn = await driver.findElement(By.className('show-more-less-html__button--more'));
       // await showMoreBtn?.click();
-      await jobDescriptionClicker(driver)
+      await jobDescriptionClicker(driver);
       await driver.sleep(3000);
       const element = await driver.findElement(By.className('core-section-container'));
       const text = await element.getText();
