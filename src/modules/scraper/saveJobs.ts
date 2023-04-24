@@ -28,8 +28,8 @@ export async function checkAndSaveJobs(jobs: TJob[]) {
             job_name: job_name,
           },
         });
-        await sendJobToChannel(response, 5000 * count);
-        console.log('Jobs saved to database successfully!');
+        await sendJobToChannel(response, count, jobs.length);
+        console.log('Jobs saved to database successfully!', `${count}/${jobs.length}`);
       }
     }
   } catch (e: any) {
