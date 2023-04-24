@@ -7,7 +7,7 @@ export async function collectCompanies() {
 
   try {
     await driver.get('https://relocate.me/companies');
-    driver.sleep(3000);
+    await driver.sleep(3000);
     const parentElement = await driver.findElements(By.className('wwbc-companies__link'));
     const companies: string[] = [];
     for (const element of parentElement) {
@@ -32,6 +32,6 @@ export async function collectCompanies() {
   } catch (err) {
     console.log(err);
   } finally {
-    driver.quit();
+    await driver.quit();
   }
 }

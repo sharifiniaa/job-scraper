@@ -1,8 +1,5 @@
 require('dotenv').config();
 import TelegramBot from 'node-telegram-bot-api';
-import {delay} from '../../helper/delay';
-import {cleanedText} from '../../helper/cleanedText';
-import {TJob} from '../../types';
 import {Job} from 'prisma/prisma-client';
 
 const botToken = `${process.env.TELEGRAM_BOT_TOKEN}`;
