@@ -5,7 +5,7 @@ export function parsPath(jobUrl: string) {
   return pathName.split('/').pop();
 }
 
-function validateURL(url: string) {
+export function validateURL(url: string) {
   let valid = true;
   try {
     new URL(url);
