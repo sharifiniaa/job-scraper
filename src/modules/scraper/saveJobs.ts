@@ -11,7 +11,7 @@ export async function checkAndSaveJobs(jobs: TJob[]) {
       const job_name: string = parsPath(job?.link);
       const existingJob = await prisma.job.findUnique({
         where: {
-          job_name,
+          job_name : job_name,
         },
       });
 

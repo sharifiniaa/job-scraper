@@ -18,7 +18,7 @@ export const scraper = async (locations: string[], keyword: string) => {
 
 async function runScripts() {
   await collectCompanies();
-  await scraper(['United kingdom', 'Netherlands', 'Sweden'], 'Frontend Developer');
+  await scraper(['United kingdom', 'Netherlands', 'Sweden'], 'Frontend');
 }
 
 void runScripts();
