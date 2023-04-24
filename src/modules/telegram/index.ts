@@ -8,7 +8,7 @@ const bot = new TelegramBot(botToken);
 
 // Function to send a job message to the Telegram channel
 
-export const sendJobToChannel = async (job: Job, delayInMs: number) => {
+export const sendJobToChannel = async (job: Job, count: number, total: number) => {
   try {
     const convertedDate = new Date(job.created_date!);
     const chat = await bot.getChat(channelName);
@@ -22,8 +22,8 @@ export const sendJobToChannel = async (job: Job, delayInMs: number) => {
     };
     setTimeout(async () => {
       await bot.sendMessage(chat.id, message, {reply_markup: keyboard, parse_mode: 'HTML'});
-      console.log(job.title, 'sent to telegram', delayInMs);
-    }, delayInMs);
+      console.log('sent to telegram', `${count}/${total} (TOTAL(not filtered))`);
+    }, count * 5000);
   } catch (err) {
     console.log(err);
   }
