@@ -14,7 +14,7 @@ export const sendJobToChannel = async (job: Job, count: number, total: number) =
     const chat = await bot.getChat(channelName);
     const message = `<b>🌟${job.title}</b>\n\nCompany: ${job.company}\n\nLocation: 🇬🇧<b>${job.location}\n\n📆Date: <i>${
       convertedDate.toLocaleDateString() + ' ' + convertedDate.toLocaleTimeString()
-    }</i></b>\n\n🔹Description: <i>${job.description}</i>\n\n\nSource:${
+    }</i></b>\n${job.description ? `\n🔹Description: <i>${job.description}</i>\n\n` : ''}\nSource:${
       job.source === 'linkedin' ? '<strong>LinkedIn</strong>' : ''
     }\n${job.visa ? '<u>🌐#visa</u>\n' : ''}`;
     const keyboard = {

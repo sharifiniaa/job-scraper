@@ -8,7 +8,7 @@ import {cli} from './modules/cli';
 export const scraper = async (locations: string[], keyword: string, isCheckDescription: boolean) => {
   try {
     const jobs = (await jobCollector(locations, keyword)) ?? [];
-    const filteredJobs = await filterKeyword(jobs);
+    const filteredJobs = isCheckDescription ? await filterKeyword(jobs) : jobs;
     await checkAndSaveJobs(filteredJobs);
   } catch (err) {
     console.log(err);

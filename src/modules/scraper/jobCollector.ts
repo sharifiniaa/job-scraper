@@ -9,8 +9,9 @@ export async function jobCollector(locations: string[], keyword: string) {
   const jobs: TJob[] = [];
   try {
     for (const location of locations) {
+      const keywords = encodeURI(keyword);
       await driver.get(
-        `https://www.linkedin.com/jobs/search?keywords=${keyword}&location=${location}&f_TPR=r86400&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0`,
+        `https://www.linkedin.com/jobs/search?keywords=${keywords}&location=${location}&f_TPR=r86400&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0`,
       );
       /* 
         **FOR Getting All Job Element**
@@ -63,6 +64,6 @@ export async function jobCollector(locations: string[], keyword: string) {
     console.log(err);
   } finally {
     // Close the browser
-    await driver?.quit();
+    // await driver?.quit();
   }
 }

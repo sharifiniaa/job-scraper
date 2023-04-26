@@ -20,6 +20,7 @@ export async function cli(): Promise<TCli | undefined> {
         type: 'string',
         description: 'Keyword for searching',
         demandOption: true,
+        coerce: arg => arg,
       })
       .option('d', {
         type: 'boolean',
@@ -28,8 +29,8 @@ export async function cli(): Promise<TCli | undefined> {
       }).argv;
 
     return {
-      locations: argv.l,
-      keyword: argv.k,
+      locations: argv.locations,
+      keyword: argv.keyword,
       d: argv.d,
     } as TCli;
   } catch (err) {
