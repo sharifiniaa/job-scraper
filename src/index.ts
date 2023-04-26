@@ -17,8 +17,6 @@ export const scraper = async (locations: string[], keyword: string, isCheckDescr
   }
 };
 
-cli();
-
 export async function runScripts() {
   const userArgs = await cli();
   if (userArgs) {
