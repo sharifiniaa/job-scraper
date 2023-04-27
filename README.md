@@ -27,7 +27,7 @@ To use this project, the following prerequisites are required:
 
 To start the job scraper tool, run the following command:
 
-    npm start -- -locations="location1"  "location2" --keyword="keyword" [--d]
+    npm start -- --locations="location1"  "location2" --keyword="keyword" [--d]
     
 Replace `location1` and `location2` with the locations you want to search for, and `keyword` with the keyword you want to search for. You can also add the optional `--d` argument to include job descriptions in the results.
 
