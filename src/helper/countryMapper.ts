@@ -1,3 +1,5 @@
+import {capitalizedString} from './delay';
+
 export function companyLogoMapper(location: string) {
   const countryLogo = {
     netherlands: '🇳🇱',
@@ -10,5 +12,5 @@ export function companyLogoMapper(location: string) {
   const country = location.toLocaleLowerCase().split(',');
   const countryName = country[country.length - 1];
   const logo = countryLogo[countryName.trim() as keyof typeof countryLogo] ?? '🏳️';
-  return `${logo} ${countryName}`;
+  return `${logo} ${capitalizedString(countryName.trim())}`;
 }
