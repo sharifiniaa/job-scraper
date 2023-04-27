@@ -43,7 +43,7 @@ export async function jobCollector(locations: string[], keyword: string) {
         const location = await elementGetter({el, selector: 'span.job-search-card__location'});
         const time = await elementGetter({el, selector: 'time'});
         const link = await elementGetter({el, selector: 'a.base-card__full-link', method: 'attribute', attr: 'href'});
-        if (isExcludedByTitle(title.toLocaleLowerCase())) {
+        if (isExcludedByTitle(title.toLocaleLowerCase()) && link.length > 1) {
           jobs.push({
             title: title.toLocaleLowerCase(),
             company,

@@ -1,7 +1,7 @@
 {
-  "name": "crawler-nodejs",
+  "name": "job-scraper",
   "version": "1.0.0",
-  "description": "crawler with node js",
+  "description": "scraper with node js",
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
