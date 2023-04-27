@@ -1,6 +1,6 @@
 export function companyLogoMapper(location: string) {
   const countryLogo = {
-    Netherlands: '🇳🇱',
+    netherlands: '🇳🇱',
     'united kingdom': '🇬🇧',
     finland: '🇫🇮',
     sweden: '🇸🇪',

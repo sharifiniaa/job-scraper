@@ -3,3 +3,4 @@ public
 coverage
 *.json
 *.config.js
+script.sh
