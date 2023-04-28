@@ -22,7 +22,7 @@ export const sendJobToChannel = async (job: Job, count: number, total: number) =
       inline_keyboard: [[{text: 'View Job & Apply', url: job.link}]],
     };
     setTimeout(async () => {
-      await bot.sendMessage(chat.id, message, {reply_markup: keyboard, parse_mode: 'HTML'});
+      await bot.sendMessage(chat.id, message, {reply_markup: keyboard, parse_mode: 'HTML', disable_notification: true});
       console.log('sent to telegram', `${count}/${total} (TOTAL(not filtered))`);
     }, count * 5000);
   } catch (err) {
