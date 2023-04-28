@@ -64,6 +64,6 @@ export async function jobCollector(locations: string[], keyword: string) {
     console.log(err);
   } finally {
     // Close the browser
-    // await driver?.quit();
+    await driver?.quit();
   }
 }
