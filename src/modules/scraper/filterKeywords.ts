@@ -13,8 +13,6 @@ export async function filterKeyword(jobs: TJob[]): Promise<TJob[]> {
     for (const job of jobItems) {
       console.log('finding keywords ...', job.link);
       await driver.get(job.link);
-      // const showMoreBtn = await driver.findElement(By.className('show-more-less-html__button--more'));
-      // await showMoreBtn?.click();
       await jobDescriptionClicker(driver);
       await driver.sleep(3000);
       const element = await driver.findElement(By.className('core-section-container'));
