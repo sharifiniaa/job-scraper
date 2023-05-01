@@ -5,6 +5,7 @@ import {Job} from 'prisma/prisma-client';
 import {getDescription} from '../scraper/getDescription';
 import {getCoverLetter} from '../openAI';
 import prisma from '../db';
+import {scraper} from '../scraper';
 
 const botToken = `${process.env.TELEGRAM_BOT_TOKEN}`;
 const channelName = `${process.env.TELEGRAM_CHANNEL_NAME}`;
@@ -93,4 +94,25 @@ export const sendMessageToBot = async (message: string, chatId: number) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+export const startScarpData = () => {
+  bot.onText(/\/start (.+)/, async (msg, match: RegExpExecArray | null) => {
+    if (!match || !match[1]) {
+      bot.sendMessage(msg.chat.id, 'Your arguments is not valid');
+    }
+    const args = match?.[1].split('-');
+    const locations = args?.[0].trim().split(',');
+    const keyword = args?.[1].trim();
+
+    try {
+      if (locations && keyword) {
+        bot.sendMessage(msg.chat.id, 'Your script is running');
+        await scraper(locations, keyword);
+      }
+    } catch (err) {
+      console.log('err');
+      bot.sendMessage(msg.chat.id, 'There are some problem on running scraper!');
+    }
+  });
 };
