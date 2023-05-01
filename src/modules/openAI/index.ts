@@ -1,7 +1,7 @@
-import { sendMessageToBot } from '../telegram';
+import {sendMessageToBot} from '../telegram';
 import {Configuration, OpenAIApi} from 'openai';
 
-export async function getCoverLetter(jobDescription: string, chatId: number) {
+export async function getCoverLetter(jobDescription: string, chatId: number, info: string) {
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   });
@@ -11,7 +11,7 @@ export async function getCoverLetter(jobDescription: string, chatId: number) {
     const res = await openai.createCompletion(
       {
         model: 'text-davinci-003',
-        prompt: `Im Front end developer with 5 years experience please write cover letter for below job description:\n ${jobDescription}`,
+        prompt: `${info} write cover letter for below job description:\n ${jobDescription}`,
         max_tokens: 3000,
         temperature: 0,
         stream: true,
@@ -30,8 +30,8 @@ export async function getCoverLetter(jobDescription: string, chatId: number) {
       for (const line of lines) {
         const message = line.replace(/^data: /, '');
         if (message.trim() === '[DONE]') {
-          console.log(response.trim(), 'fuck done');
-          sendMessageToBot(response, chatId)
+          console.log(response.trim(), 'generated cover letter finished!');
+          sendMessageToBot(response, chatId);
           return; // Stream finished
         }
         try {

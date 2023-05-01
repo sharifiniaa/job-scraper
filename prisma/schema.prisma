@@ -25,3 +25,8 @@ model companies {
   id   Int    @id @default(autoincrement())
   name String @unique
 }
+
+model Information {
+  id          Int    @id @default(autoincrement())
+  description String
+}
