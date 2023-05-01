@@ -23,8 +23,8 @@ export const sendJobToChannel = async (job: Job, count: number, total: number) =
     }\n${job.visa ? '<u>🌐#visa</u>' : ''}\n 🆔: ${job.id}`;
     const keyboard = {
       inline_keyboard: [
-        [{text: 'View Job & Apply', url: job.link}],
         [
+          {text: 'View Job & Apply', url: job.link},
           {
             text: 'Generate cover letter',
             url: `https://t.me/${process.env.TELEGRAM_BOT_NAME}?start=coverletter%20${job.id}`,
