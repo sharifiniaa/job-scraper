@@ -1,23 +1,18 @@
 require('dotenv').config();
-import {filterKeyword} from './modules/scraper/filterKeywords';
-import {checkAndSaveJobs} from './modules/scraper/saveJobs';
-import {jobCollector} from './modules/scraper/jobCollector';
+const http = require('http');
+import {scraper} from './modules/scraper';
 import {collectCompanies} from './modules/companies';
 import {cli} from './modules/cli';
+import {generateCoverLetter} from './modules/telegram';
 
-export const scraper = async (locations: string[], keyword: string, isCheckDescription: boolean) => {
-  try {
-    const jobs = (await jobCollector(locations, keyword)) ?? [];
-    const filteredJobs = isCheckDescription ? await filterKeyword(jobs) : jobs;
-    await checkAndSaveJobs(filteredJobs);
-  } catch (err) {
-    console.log(err);
-  } finally {
-    console.log('job done!');
+generateCoverLetter();
+
+export async function runScripts(locations?: string[], keyword?: string, description?: boolean) {
+  if (locations && keyword) {
+    console.log('we are here');
+    await scraper(locations, keyword, description);
+    return;
   }
-};
-
-export async function runScripts() {
   const userArgs = await cli();
   if (userArgs) {
     await collectCompanies();
@@ -25,5 +20,22 @@ export async function runScripts() {
     await scraper(userArgs.locations, userArgs.keyword, userArgs.d);
   }
 }
+// void runScripts();
 
-void runScripts();
+const server = http.createServer((req: any, res: any) => {
+  if (req.method === 'GET' && req.url === '/start') {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify({message: 'Script ran'}));
+    res.end();
+    void runScripts(['Amsterdam'], 'react', false);
+  } else {
+    res.writeHead(404, {'Content-Type': 'text/plain'});
+    res.write('404 Not Found\n');
+    res.end();
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});

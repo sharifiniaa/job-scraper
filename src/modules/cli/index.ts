@@ -1,7 +1,7 @@
 import yargs from 'yargs';
 import {hideBin} from 'yargs/helpers';
 
-type TCli = {
+export type TCli = {
   locations: string[];
   keyword: string;
   d: boolean;
