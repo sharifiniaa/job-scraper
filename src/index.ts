@@ -3,10 +3,11 @@ const http = require('http');
 import {scraper} from './modules/scraper';
 import {collectCompanies} from './modules/companies';
 import {cli} from './modules/cli';
-import {generateCoverLetter, getUserInformation} from './modules/telegram';
+import {generateCoverLetter, getUserInformation, startScarpData} from './modules/telegram';
 
 generateCoverLetter();
-getUserInformation()
+getUserInformation();
+startScarpData();
 
 export async function runScripts(locations?: string[], keyword?: string, description?: boolean) {
   if (locations && keyword) {
