@@ -12,8 +12,8 @@ export async function getCoverLetter(jobDescription: string, chatId: number, inf
       {
         model: 'text-davinci-003',
         prompt: `${info} write cover letter for below job description:\n ${jobDescription}`,
-        max_tokens: 3000,
-        temperature: 0,
+        max_tokens: 1000,
+        temperature: 0.5,
         stream: true,
       },
       {responseType: 'stream'},

@@ -21,14 +21,14 @@ export const sendJobToChannel = async (job: Job, count: number, total: number) =
       convertedDate.toLocaleDateString() + ' ' + convertedDate.toLocaleTimeString()
     }</i>\n${job.description ? `\n🔹Description: <i>${job.description}</i>\n\n` : ''}\nSource:${
       job.source === 'linkedin' ? '<strong>LinkedIn</strong>' : ''
-    }\n${job.visa ? '<u>🌐#visa</u>' : ''}\n 🆔: ${job.id}`;
+    }\n${job.visa ? '<u>🌐#visa</u>' : ''}\n 🆔 ${job.id}`;
     const keyboard = {
       inline_keyboard: [
         [
           {text: 'View Job & Apply', url: job.link},
           {
             text: 'Generate cover letter',
-            url: `https://t.me/${process.env.TELEGRAM_BOT_NAME}?start=coverletter%20${job.id}`,
+            url: `https://t.me/${process.env.TELEGRAM_BOT_NAME}?start=cover-letter-${job.id}`,
           },
         ],
       ],
@@ -98,12 +98,36 @@ export const sendMessageToBot = async (message: string, chatId: number) => {
 
 export const startScarpData = () => {
   bot.onText(/\/start (.+)/, async (msg, match: RegExpExecArray | null) => {
+    // if (match[1].includes('cover-letter')) {
+    //   console.log(match[1], 'fuck');
+    // }
     if (!match || !match[1]) {
       bot.sendMessage(msg.chat.id, 'Your arguments is not valid');
+      return;
     }
-    const args = match?.[1].split('-');
-    const locations = args?.[0].trim().split(',');
-    const keyword = args?.[1].trim();
+
+    if (match[0].includes('cover-letter')) {
+      const jobId = match[0].split('-')?.[2];
+      const response = await getDescription(+jobId);
+      if (!response) {
+        bot.sendMessage(msg.chat.id, 'job description is not exist' + response);
+        return;
+      }
+
+      try {
+        const information = await prisma.information.findFirst();
+        bot.sendMessage(msg.chat.id, information ? 'loading...' : 'information is not found');
+        if (information) await getCoverLetter(response, msg.chat.id, information?.description);
+      } catch (error) {
+        console.error(error);
+        bot.sendMessage(msg.chat.id, 'Failed to generate cover letter.');
+      }
+      return;
+    }
+
+    const args = match?.[1]?.split('-');
+    const locations = args?.[0]?.trim()?.split(',');
+    const keyword = args?.[1]?.trim();
 
     try {
       if (locations && keyword) {
