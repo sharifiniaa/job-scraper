@@ -1,6 +1,6 @@
-## Welcome to StackEdit!
-
 ## Job Scraper with Node.js and Selenium
+
+![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/7a9c0b7bfc031d7148ea53d6a6bcc417ae3280dae7ce82a8.png)
 
 This job scraper tool, developed with Node.js and Selenium, scrapes job postings from a job listing website(LinkedIn know), saves them in a PostgreSQL database, and sends them to a Telegram channel. You can customize the search by location and keyword and filter the results by title keywords.
 
