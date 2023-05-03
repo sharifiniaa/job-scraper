@@ -3,8 +3,8 @@ const http = require('http');
 import {scraper} from './modules/scraper';
 import {collectCompanies} from './modules/companies';
 import {cli} from './modules/cli';
-import {generateCoverLetter, getUserInformation, sendJobToChannel, startScarpData} from './modules/telegram';
-import prisma from './modules/db';
+import {generateCoverLetter, getUserInformation, startScarpData} from './modules/telegram';
+
 
 generateCoverLetter();
 getUserInformation();
@@ -37,7 +37,7 @@ const server = http.createServer((req: any, res: any) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 6000;
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });

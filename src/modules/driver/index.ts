@@ -1,8 +1,8 @@
 import {Builder} from 'selenium-webdriver';
-import firefox from 'selenium-webdriver/firefox';
+import chrome from 'selenium-webdriver/chrome';
 
 export async function createDriver() {
-  const options = new firefox.Options();
-  // options.headless()
-  return new Builder().forBrowser('firefox').setFirefoxOptions(options).build();
+  const options = new chrome.Options();
+  options.headless()
+  return new Builder().forBrowser('chrome').setChromeOptions(options).build();
 }
