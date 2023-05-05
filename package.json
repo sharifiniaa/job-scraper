@@ -21,7 +21,6 @@
   "devDependencies": {
     "@types/node": "^18.15.11",
     "@types/node-telegram-bot-api": "^0.61.6",
-    "@types/puppeteer": "^7.0.4",
     "@types/yargs": "^17.0.24",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
