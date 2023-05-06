@@ -29,7 +29,7 @@ RUN apk update && apk add chromium chromium-chromedriver
 EXPOSE 5000
 
 # Set the environment variables for the PostgreSQL database and the Telegram bot
-ENV DB_URL=postgresql://postgres:MM8X9PzAcIqJ0EyMqH12ExxATnaFdByL@postgres.sharifinia.svc:5432/postgres
+ENV DB_URL=postgresql://postgres:MM8X9PzAcIqJ0EyMqH12ExxATnaFdByL@942959b3-1229-4643-abd6-91a025e055b3.hsvc.ir:31663/postgres
 ENV TELEGRAM_BOT_TOKEN=5975007396:AAGX5v1XbUBAaW32UJi9bmT3nU0qUgkFkGc
 ENV TELEGRAM_CHANNEL_NAME=@jobfronttest
 ENV TITLE_FILTER_KEYWORDS="junior,no visa sponsorship,no visasponsorship,no visa,entry level"
