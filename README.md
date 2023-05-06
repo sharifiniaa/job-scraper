@@ -1,92 +1,108 @@
-# job-scraper
+## Job Scraper with Node.js and Selenium
 
+![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/7a9c0b7bfc031d7148ea53d6a6bcc417ae3280dae7ce82a8.png)
 
+This job scraper tool, developed with Node.js and Selenium, scrapes job postings from a job listing website(LinkedIn know), saves them in a PostgreSQL database, and sends them to a Telegram channel. You can customize the search by location and keyword and filter the results by title keywords.
 
-## Getting started
+  
+It's the kind of bot and channel you can create for yourself and use for gathering linked jobs and making cover letters via openAi API.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+> This project has two types of start : 
+> 
+> 1.  on your system with npm start, for example : `npm start -- --locations="location1" "location2" --keyword="keyword" [--d]`
+> 2.  run as a web server with `npm run server`. In this approach you can have both a rest api for starting scrapper or using a telegram bot.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Requirements
 
-## Add your files
+Node.js (v14 or higher)
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+PostgreSQL
 
-```
-cd existing_repo
-git remote add origin https://hamgit.ir/hosein.sharifinia/job-scraper.git
-git branch -M main
-git push -uf origin main
-```
+Selenium WebDriver
 
-## Integrate with your tools
+## Prerequisites
 
-- [ ] [Set up project integrations](https://hamgit.ir/hosein.sharifinia/job-scraper/-/settings/integrations)
+To use this project, the following conditions are required:
 
-## Collaborate with your team
+Node.js and npm: You can download and install them from the official website: [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+PostgreSQL database: You need to create a database and set up the database URL in the `.env` file. You can download and install PostgreSQL from the official website: [https://www.postgresql.org/download/](https://www.postgresql.org/download/)
 
-## Test and Deploy
+Telegram bot token: You must create a bot and get the bot token. You can follow the instructions in the Telegram documentation: [https://core.telegram.org/bots#creating-a-new-bot](https://core.telegram.org/bots#creating-a-new-bot)
 
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Telegram channel: You must create a channel on Telegram and get the channel name with the "@" prefix. You can follow the instructions in the Telegram documentation: [https://telegram.org/tour/channels#create-a-channel](https://telegram.org/tour/channels#create-a-channel).
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+
+Clone the repository: `git clone https://github.com/yourusername/job-scraper.git`
+
+Navigate to the project directory: `cd job-scraper`
+
+Install the dependencies: `npm install`
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+To start the job scraper tool, run the following command:
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+npm start -- --locations="location1" "location2" --keyword="keyword" \[--d\]
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Replace `location1` and `location2` with the locations you want to search for, and `keyword` with the keyword, you wish to search for. You can also add the optional `--d` the argument for including job descriptions in the results.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+## Telegram Bot Usage
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+*   For starting the scraper you can use `/start Sweden - "front end" OR “react”` command.
+*   For generating a cover letter for a job description `/cover-letter <jobID>`
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+## Configuration
 
-## License
-For open source projects, say how it is licensed.
+You need to set up the following environment variables in the `.env` file:
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+`DB_URL`: The URL of the PostgreSQL database.
+
+`TELEGRAM_BOT_TOKEN`: The token of the Telegram bot you created.
+
+`TELEGRAM_CHANNEL_NAME`: The name of the Telegram channel with the "@" prefix.
+
+`TITLE_FILTER_KEYWORDS`: A comma-separated list of keywords to filter the job listings by title.
+
+`TITLE_FILTER_KEYWORDS`: You need to set the title filter keywords in the `.env` file. These keywords are used to filter the job listings based on their titles.
+
+`TITLE_MUST_KEYWORD`: You can simply add some key that you want to be in the title for the gathering.
+
+`OPENAI_API_KEY`: This key is required for using the cover letter generator.
+
+## Customization
+
+You can customize the scraper by modifying the following variables in the `src/config.ts` file:
+
+`jobSites`: an array of objects that define the job search websites to be scraped. Each object should have the following properties:
+
+`name`: the name of the job site
+
+`url`: the URL of the job search page
+
+`pagination`: a boolean indicating whether or not pagination is required to extract all job postings on the site
+
+`selectors`: an object that contains CSS selectors for the job title, company name, and job location on the job search page
+
+`searchSettings`: an object that defines the search settings for the job scraper. The thing should have the following properties:
+
+`keywords`: an array of keywords to search for
+
+`locations`: a variety of locations to search in
+
+`dbSettings`: an object that defines the database settings for the scraper. The thing should have the following properties:
+
+`url`: the URL of the PostgreSQL database
+
+`telegramSettings`: an object that defines the Telegram settings for the scraper. The thing should have the following properties:
+
+`botToken`: the token for your Telegram bot
+
+`channelName`: the name of the Telegram channel to send the data to
+
+`filterSettings`: an array of keywords to filter job postings based on their title.
+
+## Note
+
+*   For more information about searching by keyword, please check this link [5 Tips on How to Search LinkedIn Like a Pro](https://blog.linkedin.com/2007/07/15/5-tips-on-how-t).
