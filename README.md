@@ -40,6 +40,12 @@ Navigate to the project directory: `cd job-scraper`
 
 Install the dependencies: `npm install`
 
+
+## Note
+Docker file added to project for using project without any complex configs.
+Also you can use docker-compose.
+be enjoy :)
+
 ## Usage
 
 To start the job scraper tool, run the following command:
