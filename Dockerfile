@@ -29,12 +29,12 @@ RUN apk update && apk add chromium chromium-chromedriver
 EXPOSE 5000
 
 # Set the environment variables for the PostgreSQL database and the Telegram bot
-ENV DB_URL=postgresql://postgres:MM8X9PzAcIqJ0EyMqH12ExxATnaFdByL@postgres.sharifinia.svc:5432/postgres
-ENV TELEGRAM_BOT_TOKEN=5975007396:AAGX5v1XbUBAaW32UJi9bmT3nU0qUgkFkGc
-ENV TELEGRAM_CHANNEL_NAME=@jobfronttest
-ENV TITLE_FILTER_KEYWORDS="junior,no visa sponsorship,no visasponsorship,no visa,entry level"
-ENV OPENAI_API_KEY=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
-ENV TITLE_MUST_KEYWORD="front-end, front end, frontend, react, software engineer"
-ENV TELEGRAM_BOT_NAME=job_opportunity_personal_bot
+ENV DB_URL=<postgresql://DB_USER:DB_PASSWORD@DB_APP_NAME:DB_PORT/DB_NAME>
+ENV TELEGRAM_BOT_TOKEN=<TELEGRAM_BOT_TOKEN>
+ENV TELEGRAM_CHANNEL_NAME=<TELEGRAM_CHANNEL_NAME>
+ENV TITLE_FILTER_KEYWORDS=<YOUR_KEY_FOR_FILTER_TITLES>
+ENV OPENAI_API_KEY=<OPENAI_API_KEY>
+ENV TITLE_MUST_KEYWORD=<TITLE_KEYWORDS_WITH_COMMA>
+ENV TELEGRAM_BOT_NAME=<TELEGRAM_BOT_NAME>
 # Start the application
 CMD ["npm", "run", "server"]
