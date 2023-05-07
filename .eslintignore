@@ -1,0 +1,6 @@
+node_modules
+public
+coverage
+*.json
+*.config.js
+script.sh
