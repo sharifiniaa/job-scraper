@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "server": "ts-node src/server.ts",
+    "dev": "nodemon src/server.ts",
     "build": "tsc"
   },
   "repository": {
@@ -27,6 +28,7 @@
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.22",
     "prettier": "^2.8.7",
     "prisma": "^4.13.0",
     "ts-node": "^10.9.1",
