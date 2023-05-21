@@ -88,6 +88,33 @@ export const getUserInformation = () => {
   });
 };
 
+export const updateInformation = () => {
+  bot.onText(/\/information_update (.+)/, async (msg, match: RegExpExecArray | null) => {
+    if (!match || !match[1]) {
+      bot.sendMessage(msg.chat.id, 'Invalid command format. Please use the format: /information <user information>');
+      return;
+    }
+
+    try {
+      const information = await prisma.information.findFirst();
+      if (information) {
+        const response = await prisma.information.update({
+          data: {description: match[1]},
+          where: {id: information.id},
+        });
+        if (response) {
+          bot.sendMessage(msg.chat.id, 'Your data updated successfully...');
+        }
+        return;
+      }
+      bot.sendMessage(msg.chat.id, 'You must first add information with /information <message>');
+    } catch (error) {
+      console.error(error);
+      bot.sendMessage(msg.chat.id, 'failed to save data please try few minutes later!');
+    }
+  });
+};
+
 export const sendMessageToBot = async (message: string, chatId: number) => {
   try {
     bot.sendMessage(chatId, message);
