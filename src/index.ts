@@ -12,7 +12,6 @@ export async function runScripts() {
   const userArgs = await cli();
   if (userArgs) {
     await collectCompanies();
-    console.log(userArgs);
     await scraper(userArgs.locations, userArgs.keyword, userArgs.d);
   }
 }

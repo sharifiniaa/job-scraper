@@ -10,6 +10,7 @@ import {scraper} from '../scraper';
 const botToken = `${process.env.TELEGRAM_BOT_TOKEN}`;
 const channelName = `${process.env.TELEGRAM_CHANNEL_NAME}`;
 const bot = new TelegramBot(botToken, {polling: true});
+let isActionRunning = false;
 
 export const sendJobToChannel = async (job: Job, count: number, total: number) => {
   try {
@@ -23,7 +24,7 @@ export const sendJobToChannel = async (job: Job, count: number, total: number) =
       job.source === 'linkedin' ? '<strong>LinkedIn</strong>' : ''
     }\n${job.visa ? '<u>🌐#visa</u>' : ''}\n 🆔 ${job.id}`;
     const keyboard = {
-      inline_keyboard: [
+      keyboard: [
         [
           {text: 'View Job & Apply', url: job.link},
           {
@@ -44,6 +45,12 @@ export const sendJobToChannel = async (job: Job, count: number, total: number) =
 
 export const generateCoverLetter = () => {
   bot.onText(/\/coverletter (.+)/, async (msg, match: RegExpExecArray | null) => {
+    if (isActionRunning) {
+      bot.sendMessage(msg.chat.id, 'Sorry, a previous action is still running. Please wait... 🎲');
+      return;
+    }
+    isActionRunning = true;
+
     if (!match) {
       bot.sendMessage(msg.chat.id, 'Invalid command format. Please use the format: /coverletter <job id>');
       return;
@@ -63,12 +70,19 @@ export const generateCoverLetter = () => {
     } catch (error) {
       console.error(error);
       bot.sendMessage(msg.chat.id, 'Failed to generate cover letter.');
+    } finally {
+      isActionRunning = false;
     }
   });
 };
 
 export const getUserInformation = () => {
   bot.onText(/\/information (.+)/, async (msg, match: RegExpExecArray | null) => {
+    if (isActionRunning) {
+      bot.sendMessage(msg.chat.id, 'Sorry, a previous action is still running. Please wait... 🎲');
+      return;
+    }
+    isActionRunning = true;
     if (!match || !match[1]) {
       bot.sendMessage(msg.chat.id, 'Invalid command format. Please use the format: /information <user information>');
       return;
@@ -87,12 +101,19 @@ export const getUserInformation = () => {
       throw new Error("Your information Can't saved please check your message!");
     } catch (error) {
       bot.sendMessage(msg.chat.id, (error as Error)?.message || 'failed to save data please try few minutes later!');
+    } finally {
+      isActionRunning = false;
     }
   });
 };
 
 export const updateInformation = () => {
   bot.onText(/\/information_update (.+)/, async (msg, match: RegExpExecArray | null) => {
+    if (isActionRunning) {
+      bot.sendMessage(msg.chat.id, 'Sorry, a previous action is still running. Please wait... 🎲');
+      return;
+    }
+    isActionRunning = true;
     if (!match || !match[1]) {
       bot.sendMessage(msg.chat.id, 'Invalid command format. Please use the format: /information <user information>');
       return;
@@ -113,6 +134,8 @@ export const updateInformation = () => {
       bot.sendMessage(msg.chat.id, 'You must first add information with /information <message>');
     } catch (error) {
       bot.sendMessage(msg.chat.id, 'failed to save data please try few minutes later!');
+    } finally {
+      isActionRunning = false;
     }
   });
 };
@@ -127,9 +150,11 @@ export const sendMessageToBot = async (message: string, chatId: number) => {
 
 export const startScarpData = () => {
   bot.onText(/\/start (.+)/, async (msg, match: RegExpExecArray | null) => {
-    // if (match[1].includes('cover-letter')) {
-    //   console.log(match[1], 'fuck');
-    // }
+    if (isActionRunning) {
+      bot.sendMessage(msg.chat.id, 'Sorry, a previous action is still running. Please wait... 🎲');
+      return;
+    }
+    isActionRunning = true;
     if (!match || !match[1]) {
       bot.sendMessage(msg.chat.id, 'Your arguments is not valid');
       return;
@@ -150,6 +175,8 @@ export const startScarpData = () => {
       } catch (error) {
         console.error(error);
         bot.sendMessage(msg.chat.id, 'Failed to generate cover letter.');
+      } finally {
+        isActionRunning = false;
       }
       return;
     }
@@ -160,12 +187,14 @@ export const startScarpData = () => {
 
     try {
       if (locations && keyword) {
-        bot.sendMessage(msg.chat.id, 'Your script is running');
-        await scraper(locations, keyword);
+        bot.sendMessage(msg.chat.id, 'Your script is running 🎰');
+        await scraper(locations, keyword, false, bot, msg.chat.id);
       }
     } catch (err) {
       console.log('err');
       bot.sendMessage(msg.chat.id, 'There are some problem on running scraper!');
+    } finally {
+      isActionRunning = false;
     }
   });
 };
