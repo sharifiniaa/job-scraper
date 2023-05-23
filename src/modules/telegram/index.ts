@@ -75,15 +75,18 @@ export const getUserInformation = () => {
     }
 
     try {
+      const isInformationExist = await prisma.information.findFirst();
+      if (!!isInformationExist) {
+        throw new Error('you have information please remove or edit!');
+      }
       const information = await prisma.information.create({data: {description: match[1]}});
       if (information) {
         bot.sendMessage(msg.chat.id, 'Your data saved...');
         return;
       }
-      bot.sendMessage(msg.chat.id, "Your information Can't saved please check your message!");
+      throw new Error("Your information Can't saved please check your message!");
     } catch (error) {
-      console.error(error);
-      bot.sendMessage(msg.chat.id, 'failed to save data please try few minutes later!');
+      bot.sendMessage(msg.chat.id, (error as Error)?.message || 'failed to save data please try few minutes later!');
     }
   });
 };
@@ -109,7 +112,6 @@ export const updateInformation = () => {
       }
       bot.sendMessage(msg.chat.id, 'You must first add information with /information <message>');
     } catch (error) {
-      console.error(error);
       bot.sendMessage(msg.chat.id, 'failed to save data please try few minutes later!');
     }
   });
