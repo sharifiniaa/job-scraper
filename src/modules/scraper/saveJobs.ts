@@ -3,8 +3,9 @@ import {parsPath} from './parsPath';
 import prisma from '../db';
 import {sendJobToChannel} from '../telegram';
 import {cleanedText} from '../../helper/cleanedText';
+import TelegramBot from 'node-telegram-bot-api';
 
-export async function checkAndSaveJobs(jobs: TJob[]) {
+export async function checkAndSaveJobs(jobs: TJob[], bot?: TelegramBot, chatId?: number) {
   let count = 0;
   try {
     for (const job of jobs) {
@@ -35,8 +36,10 @@ export async function checkAndSaveJobs(jobs: TJob[]) {
   } catch (e: any) {
     console.error(`Error saving jobs to database: ${e.message}`);
   } finally {
-    console.log(jobs.length, 'jobs found');
-    console.log('new items', count);
+    if(bot && chatId) {
+      bot.sendMessage(chatId, `${jobs.length} jobs found by scraping 😈`);
+      bot.sendMessage(chatId, `${count} jobs are new 😬`);
+    }
     await prisma.$disconnect();
   }
 }
