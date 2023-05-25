@@ -6,6 +6,7 @@ import {getDescription} from '../scraper/getDescription';
 import {getCoverLetter} from '../openAI';
 import prisma from '../db';
 import {scraper} from '../scraper';
+import {collectCompanies} from '../companies';
 
 const botToken = `${process.env.TELEGRAM_BOT_TOKEN}`;
 const channelName = `${process.env.TELEGRAM_CHANNEL_NAME}`;
@@ -191,8 +192,33 @@ export const startScarpData = () => {
         await scraper(locations, keyword, false, bot, msg.chat.id);
       }
     } catch (err) {
-      console.log('err');
+      console.log(err);
       bot.sendMessage(msg.chat.id, 'There are some problem on running scraper!');
+    } finally {
+      isActionRunning = false;
+    }
+  });
+};
+
+export const gatheringCompanies = () => {
+  bot.onText(/\/companies/, async (msg, match: RegExpExecArray | null) => {
+    try {
+      if (isActionRunning) {
+        bot.sendMessage(msg.chat.id, 'Sorry, a previous action is still running. Please wait... 🎲');
+        return;
+      }
+      if (!match) {
+        bot.sendMessage(msg.chat.id, 'Invalid command format. Please use the format: /companies command');
+        return;
+      }
+      bot.sendMessage(msg.chat.id, 'gathering data please wait... 🌘');
+      const data = await collectCompanies();
+      if (!data) {
+        throw new Error('cant find data!');
+      }
+      bot.sendMessage(msg.chat.id, `${data.companies.length} companies found and ${data.newCompanies} of them are new!🌝`);
+    } catch (err) {
+      bot.sendMessage(msg.chat.id, (err as Error)?.message || 'failed to find data please try few minutes later!');
     } finally {
       isActionRunning = false;
     }
