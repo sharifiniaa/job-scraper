@@ -15,7 +15,6 @@ export async function collectCompanies() {
       const company = await childElement.getText();
       companies.push(company.toLocaleLowerCase());
     }
-    console.log('[collected companies]', companies.length);
     let newCompanies = 0;
     for (const el of companies) {
       const isExist = await prisma.companies.findUnique({
@@ -28,7 +27,7 @@ export async function collectCompanies() {
         await prisma.companies.create({data: {name: el}});
       }
     }
-    console.log('[new companies]', newCompanies);
+    return {newCompanies, companies};
   } catch (err) {
     console.log(err);
   } finally {
