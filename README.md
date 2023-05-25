@@ -1,6 +1,6 @@
 ## Job Scraper with Node.js and Selenium
 
-![](https://33333.cdn.cke-cs.com/kSW7V9NHUXugvhoQeFaf/images/7a9c0b7bfc031d7148ea53d6a6bcc417ae3280dae7ce82a8.png)
+![](https://www.upsara.com/do.php?img=139950)
 
 This job scraper tool, developed with Node.js and Selenium, scrapes job postings from a job listing website(LinkedIn know), saves them in a PostgreSQL database, and sends them to a Telegram channel. You can customize the search by location and keyword and filter the results by title keywords.
 
@@ -70,8 +70,6 @@ You need to set up the following environment variables in the `.env` file:
 `TELEGRAM_CHANNEL_NAME`: The name of the Telegram channel with the "@" prefix.
 
 `TITLE_FILTER_KEYWORDS`: A comma-separated list of keywords to filter the job listings by title.
-
-`TITLE_FILTER_KEYWORDS`: You need to set the title filter keywords in the `.env` file. These keywords are used to filter the job listings based on their titles.
 
 `TITLE_MUST_KEYWORD`: You can simply add some key that you want to be in the title for the gathering.
 
