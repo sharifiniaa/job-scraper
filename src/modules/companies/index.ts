@@ -1,36 +1,37 @@
-import prisma from '../db';
-import {createDriver} from '../driver';
-import {By} from 'selenium-webdriver';
+import {relocateMe} from './relocateMe';
+import {siaExplains} from './siaExplains';
 
-export async function collectCompanies() {
-  const driver = await createDriver();
+type companiesData = {
+  relocateCom: Record<string, number>;
+  newCompanies: number;
+  siaExplains: Record<string, number>;
+};
 
+export async function collectCompanies(): Promise<companiesData | undefined> {
   try {
-    await driver.get('https://relocate.me/companies');
-    await driver.sleep(3000);
-    const parentElement = await driver.findElements(By.className('wwbc-companies__link'));
-    const companies: string[] = [];
-    for (const element of parentElement) {
-      const childElement = await element.findElement(By.css('span:first-child'));
-      const company = await childElement.getText();
-      companies.push(company.toLocaleLowerCase());
+    const companiesData: companiesData = {
+      newCompanies: 0,
+      relocateCom: {
+        companies: 0,
+      },
+      siaExplains: {
+        newCompanies: 0,
+        companies: 0,
+      },
+    };
+    const relocateCom = await relocateMe();
+    if (relocateCom) {
+      companiesData.relocateCom.companies = relocateCom.companies;
+      companiesData.newCompanies += relocateCom.newCompanies;
     }
-    let newCompanies = 0;
-    for (const el of companies) {
-      const isExist = await prisma.companies.findUnique({
-        where: {
-          name: el,
-        },
-      });
-      if (!isExist) {
-        newCompanies = newCompanies + 1;
-        await prisma.companies.create({data: {name: el}});
-      }
+
+    const siaExplainData = await siaExplains();
+    if (siaExplainData) {
+      companiesData.siaExplains.companies = siaExplainData.companies;
+      companiesData.newCompanies += siaExplainData.newCompanies;
     }
-    return {newCompanies, companies};
+    return companiesData;
   } catch (err) {
     console.log(err);
-  } finally {
-    await driver.quit();
   }
 }
