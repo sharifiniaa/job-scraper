@@ -201,14 +201,10 @@ export const startScarpData = () => {
 };
 
 export const gatheringCompanies = () => {
-  bot.onText(/\/companies/, async (msg, match: RegExpExecArray | null) => {
+  bot.onText(/\/companies/, async msg => {
     try {
       if (isActionRunning) {
         bot.sendMessage(msg.chat.id, 'Sorry, a previous action is still running. Please wait... 🎲');
-        return;
-      }
-      if (!match) {
-        bot.sendMessage(msg.chat.id, 'Invalid command format. Please use the format: /companies command');
         return;
       }
       bot.sendMessage(msg.chat.id, 'gathering data please wait... 🌘');
@@ -216,7 +212,14 @@ export const gatheringCompanies = () => {
       if (!data) {
         throw new Error('cant find data!');
       }
-      bot.sendMessage(msg.chat.id, `${data.companies.length} companies found and ${data.newCompanies} of them are new!🌝`);
+      const {relocateCom, siaExplains, newCompanies} = data;
+      bot.sendMessage(
+        msg.chat.id,
+        `relocateMe:${relocateCom.companies} companies found \n
+        siaExplains: ${siaExplains.companies} \n
+        ${newCompanies} of them are new!🌝
+        `,
+      );
     } catch (err) {
       bot.sendMessage(msg.chat.id, (err as Error)?.message || 'failed to find data please try few minutes later!');
     } finally {
