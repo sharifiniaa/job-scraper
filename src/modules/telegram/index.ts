@@ -25,7 +25,7 @@ export const sendJobToChannel = async (job: Job, count: number, total: number) =
       job.source === 'linkedin' ? '<strong>LinkedIn</strong>' : ''
     }\n${job.visa ? '<u>🌐#visa</u>' : ''}\n 🆔 ${job.id}`;
     const keyboard = {
-      keyboard: [
+      inline_keyboard: [
         [
           {text: 'View Job & Apply', url: job.link},
           {
