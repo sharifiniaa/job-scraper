@@ -22,8 +22,8 @@ model Job {
 }
 
 model companies {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
   source String?
 }
 

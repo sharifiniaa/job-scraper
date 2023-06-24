@@ -23,7 +23,7 @@ export const sendJobToChannel = async (job: Job, count: number, total: number) =
       convertedDate.toLocaleDateString() + ' ' + convertedDate.toLocaleTimeString()
     }</i>\n${job.description ? `\n🔹Description: <i>${job.description}</i>\n\n` : ''}\nSource:${
       job.source === 'linkedin' ? '<strong>LinkedIn</strong>' : ''
-    }\n${job.visa ? '<u>🌐#visa</u>' : ''}\n 🆔 ${job.id}`;
+    }\n${job.visa ? '<u>🌐#visa</u>' : ''}\n 🆔 <code>${job.id}</code>`;
     const keyboard = {
       inline_keyboard: [
         [
@@ -222,6 +222,41 @@ export const gatheringCompanies = () => {
       );
     } catch (err) {
       bot.sendMessage(msg.chat.id, (err as Error)?.message || 'failed to find data please try few minutes later!');
+    } finally {
+      isActionRunning = false;
+    }
+  });
+};
+
+export const getJD = () => {
+  bot.onText(/\/jd (.+)/, async (msg, match: RegExpExecArray | null) => {
+    if (isActionRunning) {
+      bot.sendMessage(msg.chat.id, 'Sorry, a previous action is still running. Please wait... 🎲');
+      return;
+    }
+    isActionRunning = true;
+
+    if (!match || !match[0]) {
+      bot.sendMessage(msg.chat.id, 'Invalid command format. Please use the format: /jd <jobId>');
+      return;
+    }
+
+    try {
+      const jobId = +match[1];
+      const jobDescription = await prisma.job.findUnique({
+        where: {
+          id: jobId,
+        },
+      });
+      if (jobDescription?.description) {
+        const code = `${jobDescription.description}`;
+        await bot.sendMessage(msg.chat.id, code);
+        return;
+      }
+      const scrapJd = await getDescription(jobId);
+      bot.sendMessage(msg.chat.id, scrapJd ? String(scrapJd) : 'nothing found!');
+    } catch (error) {
+      bot.sendMessage(msg.chat.id, 'failed to save data please try few minutes later!');
     } finally {
       isActionRunning = false;
     }
